@@ -7,45 +7,27 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.LogRecord;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class MainActivity extends Activity {
     public static Activity activity;
     private ProgressDialog progress;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,144 +37,15 @@ public class MainActivity extends Activity {
         String Api = "GetAll";
 
         new GetClass(this).execute("GetAll");
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-
-    public void parseResponse(String response) {
-    }
-
-    public void sendPostRequest(View View) {
-        String Api = "InfoGet";
-        String Id = "";
-        new PostClass(this).execute(Api, Id);
-    }
-
-    public void sendGetRequest(View View) {
-        String Api = "InfoGet";
-        String Id = "1001-1201-1221";
-        new GetClass(this).execute(Api, Id);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.numetriclabz.sendrequests/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.numetriclabz.sendrequests/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
-
-    private class PostClass extends AsyncTask<String, Void, Void> {
-
-        private final Context context;
-
-        public PostClass(Context c) {
-
-            this.context = c;
-//            this.error = status;
-//            this.type = t;
-        }
-
-        protected void onPreExecute() {
-            progress = new ProgressDialog(this.context);
-            progress.setMessage("Loading");
-            progress.show();
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-
-                final TextView outputView = (TextView) findViewById(R.id.showOutput);
-                URL url = new URL("http://people-count.azurewebsites.net");
-
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                String urlParameters = "fizz=buzz";
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
-                connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
-                connection.setDoOutput(true);
-                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
-                dStream.writeBytes(urlParameters);
-                dStream.flush();
-                dStream.close();
-                int responseCode = connection.getResponseCode();
-
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                System.out.println("Post parameters : " + urlParameters);
-                System.out.println("Response Code : " + responseCode);
-
-                final StringBuilder output = new StringBuilder("Request URL " + url);
-                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
-                output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
-                output.append(System.getProperty("line.separator") + "Type " + "POST");
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuilder responseOutput = new StringBuilder();
-                System.out.println("output===============" + br);
-                while ((line = br.readLine()) != null) {
-                    responseOutput.append(line);
-                }
-                br.close();
-
-                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
-
-                MainActivity.this.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        outputView.setText(output);
-                        progress.dismiss();
-                    }
-                });
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+    /*This handler defines the onClick behaviour for each added button*/
+    View.OnClickListener handleOnClick(final String ID) {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                new GetClass(MainActivity.activity).execute("InfoGet", ID);
             }
-            return null;
-        }
-
-        protected void onPostExecute() {
-            progress.dismiss();
-        }
-
+        };
     }
 
     private class GetClass extends AsyncTask<String, Void, Void> {
@@ -202,7 +55,6 @@ public class MainActivity extends Activity {
         public GetClass(Context c) {
             this.context = c;
         }
-
 
         protected void onPreExecute() {
             progress = new ProgressDialog(this.context);
@@ -237,7 +89,6 @@ public class MainActivity extends Activity {
                 System.out.println("Response Code : " + responseCode);
 
                 final StringBuilder output = new StringBuilder("Request URL " + url);
-                //output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
                 output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
                 output.append(System.getProperty("line.separator") + "Type " + "GET");
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -275,13 +126,13 @@ public class MainActivity extends Activity {
                                 b.setText(jsonObj[0].get(jsonObj[0].names().getString(i)).toString());
                                 ll.gravity = Gravity.CENTER;
                                 b.setLayoutParams(ll);
+                                b.setOnClickListener(handleOnClick(jsonObj[0].names().getString(i).toString()));
                                 ((LinearLayout) findViewById(R.id.myLayout)).addView(b);
                             }
                             catch(Exception e){
                                 e.printStackTrace();
                             }
                         }
-
                     }
                 };
                 Message msg = mHandler.obtainMessage();
@@ -305,12 +156,5 @@ public class MainActivity extends Activity {
             }
             return null;
         }
-
-//        protected void onPostExecute() {
-//            progress.dismiss();
-//        }
-
     }
-
-
 }

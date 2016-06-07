@@ -16,31 +16,6 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.numetriclabz.sendrequests.MainActivity">
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Send POST Request"
-            android:id="@+id/sendPost"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/sendGet"
-            android:layout_alignEnd="@+id/sendGet"
-            android:onClick="sendPostRequest"/>
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Send GET Request"
-            android:id="@+id/sendGet"
-            android:layout_below="@+id/sendPost"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="sendGetRequest"/>
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
