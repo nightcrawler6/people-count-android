@@ -34,7 +34,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         activity = this;
-        String Api = "GetAll";
 
         new GetClass(this).execute("GetAll");
     }
@@ -68,7 +67,6 @@ public class MainActivity extends Activity {
                 if (params.length < 1) {
                     return null;
                 }
-                final TextView outputView = (TextView) findViewById(R.id.showOutput);
                 String url_string = "http://people-count.azurewebsites.net/api/";
                 if (params.length > 0) {
                     for (String component : params) {
@@ -84,18 +82,18 @@ public class MainActivity extends Activity {
 
                 int responseCode = connection.getResponseCode();
 
-                System.out.println("\nSending 'Get' request to URL : " + url);
+                /*System.out.println("\nSending 'Get' request to URL : " + url);
                 System.out.println("Post parameters : " + urlParameters);
                 System.out.println("Response Code : " + responseCode);
-
-                final StringBuilder output = new StringBuilder("Request URL " + url);
                 output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
                 output.append(System.getProperty("line.separator") + "Type " + "GET");
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                final StringBuilder responseOutput = new StringBuilder();
                 System.out.println("output===============" + br);
-                Log.d("Resopnse", "" + br);
+                Log.d("Resopnse", "" + br);*/
+
+                String line = "";
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                final StringBuilder output = new StringBuilder("Request URL " + url);
+                final StringBuilder responseOutput = new StringBuilder();
                 while ((line = br.readLine()) != null) {
                     responseOutput.append(line);
                 }
@@ -105,7 +103,7 @@ public class MainActivity extends Activity {
                 }
                 br.close();
 
-                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
+                //output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
                 Handler mHandler = new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
@@ -141,9 +139,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void run() {
-                        outputView.setText(output);
                         progress.dismiss();
-
                     }
                 });
 
