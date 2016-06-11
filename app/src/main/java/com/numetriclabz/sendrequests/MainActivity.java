@@ -38,6 +38,12 @@ public class MainActivity extends Activity {
         new GetClass(this).execute("GetAll");
     }
 
+    public void refreshPage(View v){
+        LinearLayout ll = (LinearLayout) findViewById(R.id.myLayout);
+        ll.removeAllViews();
+        new GetClass(this).execute("GetAll");
+    }
+
     /*This handler defines the onClick behaviour for each added button*/
     View.OnClickListener handleOnClick(final String ID) {
         return new View.OnClickListener() {
